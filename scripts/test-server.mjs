@@ -7,6 +7,8 @@ const url='http://127.0.0.1:'+server.address().port;
 try{
  assert.equal((await fetch(url+'/healthz')).status,200);
  assert.equal((await fetch(url+'/')).status,401);
+ for(const asset of ['/manifest.webmanifest','/icon-192.png','/icon-512.png'])assert.equal((await fetch(url+asset)).status,200);
+ assert.equal((await fetch(url+'/api/analyse')).status,401);
  const response=await fetch(url+'/api/status',{headers:{authorization:'Basic '+Buffer.from('test:test-password').toString('base64'),origin:'https://plv.example.test','x-forwarded-host':'evil.test'}});
  assert.equal(response.status,200);assert.equal(forwarded.url,'https://plv.example.test/api/status');assert.equal(forwarded.origin,'https://plv.example.test');assert.equal(forwarded.auth,null);assert.equal(forwarded.env.OPENAI_API_KEY,'fake-test-key');
  console.log('Serveur production : authentification, healthcheck et origine HTTPS vérifiés.');

@@ -11,7 +11,8 @@ export function createAppServer(worker,env){
  return http.createServer(async(req,res)=>{
   if(req.url==='/healthz'&&req.method==='GET'){res.writeHead(200,{'content-type':'text/plain','cache-control':'no-store'});res.end('ok');return;}
   const actual=Buffer.from(req.headers.authorization||'');
-  if(actual.length!==expected.length||!timingSafeEqual(actual,expected)){res.writeHead(401,{'www-authenticate':'Basic realm="Yeti Factory", charset="UTF-8"','cache-control':'no-store'});res.end('Authentification requise.');return;}
+  const installationAsset=req.method==='GET'&&['/manifest.webmanifest','/icon-192.png','/icon-512.png'].includes(req.url);
+  if(!installationAsset&&(actual.length!==expected.length||!timingSafeEqual(actual,expected))){res.writeHead(401,{'www-authenticate':'Basic realm="Yeti Factory", charset="UTF-8"','cache-control':'no-store'});res.end('Authentification requise.');return;}
   try{
    const chunks=[];let size=0;
    for await(const chunk of req){size+=chunk.length;if(size>4500000){res.writeHead(413,{'cache-control':'no-store'});res.end('Requête trop volumineuse.');return;}chunks.push(chunk);}
