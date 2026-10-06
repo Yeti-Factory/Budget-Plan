@@ -34,4 +34,3 @@ Le serveur exige une authentification pour conserver un accès privé. Le health
 L’application envoie les données du projet et le brief à OpenAI lors de l’extraction ou de l’analyse, avec store:false. L’estimation IA est indicative et doit être confirmée par des références ou devis comparables ; le modèle ne dispose pas de barèmes sectoriels vérifiés. Les tests utilisent des réponses simulées et ne prouvent pas une connexion réelle depuis Coolify.
 
 Documentation Coolify : https://coolify.io/docs/applications/ et https://coolify.io/docs/applications/configuration/environment-variables
-

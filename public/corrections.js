@@ -1,0 +1,1 @@
+export function briefDifferences(fields,readValue){return fields.filter(field=>{const value=String(readValue(field.key)??'');return ['price','vat','quantity','count','cycles','sellthrough'].includes(field.key)?Number(value)!==Number(field.value):value.trim()!==field.value.trim();}).map(field=>({...field,current:String(readValue(field.key)??'')}));}

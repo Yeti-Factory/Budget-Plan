@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {defaults} from '../public/model.js';
+const source=await readFile(new URL('../dist/server/index.js',import.meta.url),'utf8');
+const {default:worker}=await import('data:text/javascript;base64,'+Buffer.from(source).toString('base64'));
+const original=globalThis.fetch;
+let answer={summary:'Brief mobilier.',missing:'Fixation à préciser.',fields:[{key:'material',value:'Multi-matériaux',evidence:'bois et métal'},{key:'quantity',value:'0',evidence:'sans produit'},{key:'count',value:'100',evidence:'100 meubles'},{key:'count',value:'120',evidence:'120 meubles'},{key:'objective',value:'Notoriété',evidence:'image de marque'},{key:'objective',value:'Notoriété',evidence:'image de marque'},{key:'project',value:'x'.repeat(201),evidence:'titre long'}]};
+globalThis.fetch=async(url,options)=>{const body=JSON.parse(options.body);assert.equal(body.store,false);return new Response(JSON.stringify({status:'completed',output:[{content:[{type:'output_text',text:JSON.stringify(answer)}]}]}));};
+const request=()=>new Request('https://test.local/api/brief',{method:'POST',headers:{origin:'https://test.local','Content-Type':'application/json'},body:JSON.stringify({text:'Brief de test'})});
+try{
+ let response=await worker.fetch(request(),{OPENAI_API_KEY:'test'});assert.equal(response.status,200);let data=await response.json();assert.deepEqual(data.fields.map(f=>f.key),['material','objective']);assert.match(data.missing,/capacité produits/);assert.match(data.missing,/contradictoires/);assert.match(data.missing,/nom du projet/);
+ answer={summary:'x'.repeat(5100),missing:'',fields:[{key:'price',value:'39,50',evidence:'39,50 euros TTC'}]};response=await worker.fetch(request(),{OPENAI_API_KEY:'test'});data=await response.json();assert.equal(data.summary.length,5000);assert.equal(data.fields[0].value,'39.50');assert.match(data.missing,/abrégé/);
+ answer={summary:'',missing:'',fields:[]};response=await worker.fetch(request(),{OPENAI_API_KEY:'test'});assert.equal(response.status,502);assert.match((await response.json()).error,/contrôle/);
+ let forwarded;globalThis.fetch=async(url,options)=>{const body=JSON.parse(options.body);forwarded=JSON.parse(body.input);return new Response(JSON.stringify({output:[{content:[{type:'output_text',text:JSON.stringify({low:null,target:null,high:null,justification:'Brief à compléter.',questions:['Format ?','Finition ?','Pose ?'],pistes:'Options.',argumentaire:'À confirmer.'})}]}]}));};
+ response=await worker.fetch(new Request('https://test.local/api/analyse',{method:'POST',headers:{origin:'https://test.local','Content-Type':'application/json'},body:JSON.stringify({...defaults,containsProducts:'Sans produit',briefSummary:'Synthèse du PDF : bois et métal.'})}),{OPENAI_API_KEY:'test'});assert.equal(response.status,200);assert.equal(forwarded.briefSummary,'Synthèse du PDF : bois et métal.');assert.equal('price' in forwarded,false);assert.equal((await response.json()).result,null);
+ console.log('Brief : champs valides conservés, doublons, contradictions, valeurs invalides et longues, décimales, synthèse PDF transmise à l’analyse.');
+}finally{globalThis.fetch=original;}

@@ -1,0 +1,26 @@
+{
+  "id": "/",
+  "name": "Yeti Factory · Budget PLV",
+  "short_name": "Yeti PLV",
+  "description": "Analyse IA du prix de vente conseillé pour une PLV.",
+  "lang": "fr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#101c2e",
+  "theme_color": "#ff8628",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

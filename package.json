@@ -1,0 +1,13 @@
+{
+  "name": "yeti-factory-plv-budget",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "validate": "node scripts/validate-artifact.mjs",
+    "test": "node scripts/test-all.mjs",
+    "preview": "node scripts/preview.mjs",
+    "start": "node scripts/server.mjs",
+    "test:server": "node scripts/test-server.mjs"
+  }
+}
