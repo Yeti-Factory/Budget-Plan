@@ -15,5 +15,8 @@ const worker=(await readFile(new URL('../worker/index.js',import.meta.url),'utf8
 await mkdir(new URL('../dist/server/',import.meta.url),{recursive:true});
 await mkdir(new URL('../dist/.openai/',import.meta.url),{recursive:true});
 await writeFile(new URL('../dist/server/index.js',import.meta.url),'const assets='+JSON.stringify(assets)+';\n'+model+'\n'+questionRules+'\n'+briefValidation+'\n'+briefHandler+'\n'+withoutHandler+'\n'+worker);
-await writeFile(new URL('../dist/.openai/hosting.json',import.meta.url),await readFile(new URL('../.openai/hosting.json',import.meta.url)));
+try {
+ const hosting=await readFile(new URL('../.openai/hosting.json',import.meta.url));
+ await writeFile(new URL('../dist/.openai/hosting.json',import.meta.url),hosting);
+} catch(error) { if(error.code!=='ENOENT') throw error; }
 console.log('Application construite.');
