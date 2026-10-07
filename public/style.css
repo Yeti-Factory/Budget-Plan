@@ -17,3 +17,5 @@
 #correction-dialog{width:min(1050px,94vw);max-height:88vh;overflow:auto;color:#fff;background:#142034;border:1px solid #40516b;border-radius:10px;padding:24px}#correction-dialog::backdrop{background:#000b}.correction-table{width:100%;border-collapse:collapse;font-size:13px}.correction-table th,.correction-table td{text-align:left;padding:10px;border:1px solid #40516b;vertical-align:top}.correction-table th{color:#ff943d}.correction-table input{width:18px;height:18px}.table-scroll,#brief-fields{overflow-x:auto}.correction-actions{display:flex;gap:12px;flex-wrap:wrap}#correction-review-missing{white-space:pre-wrap;font-size:13px}#correction-review-status{color:#ff943d}
 
 input::placeholder,textarea::placeholder{color:#8a96a6;opacity:1}input:placeholder-shown{font-weight:400}
+
+#ai-sources{margin-top:1rem}#ai-sources li{margin:.6rem 0;overflow-wrap:anywhere}#ai-sources a,.ai-answer a{color:#ff8628;text-decoration:underline;text-underline-offset:3px}
