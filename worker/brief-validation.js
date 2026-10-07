@@ -9,7 +9,7 @@ function normalizeBriefExtraction(extracted){
  if(!value||value.length>200||typeof field.evidence!=='string'||!field.evidence.trim()){warnings.push('Information non importée pour '+labels[key]+' : libellé trop long ou preuve absente.');continue;}
  if(/^(pas défini|pas définie|non défini|non définie|inconnu|inconnue)$/i.test(value)||/non (précisé|précisée|fourni|fournie|indiqué|indiquée|disponible)|pas de .{0,80}mentionné|aucun .{0,80}mentionné/i.test(field.evidence)){warnings.push('Information absente pour '+labels[key]+' : votre saisie est conservée.');continue;}
  if(key==='containsProducts'&&!['Avec produits','Sans produit'].includes(value)){warnings.push('Présence de produits à préciser.');continue;}
- if(typeof defaults[key]==='number'){value=value.replace(',','.');if(!/^\d+(\.\d+)?$/.test(value)||validate({...defaults,[key]:Number(value)}).length){warnings.push('Valeur non importée pour '+labels[key]+' : unité ou valeur à préciser.');continue;}}
+ if(['price','vat','quantity','cycles','sellthrough','makerMargin','count'].includes(key)){value=value.replace(',','.');if(!/^\d+(\.\d+)?$/.test(value)||validate({...defaults,[key]:Number(value)}).length){warnings.push('Valeur non importée pour '+labels[key]+' : unité ou valeur à préciser.');continue;}}
  fields.push({key,value,evidence:field.evidence.trim().slice(0,1000)});
  }
  if(extracted.summary.length>5000)warnings.push('Résumé abrégé : vérifiez les détails du document.');
