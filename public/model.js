@@ -1,4 +1,4 @@
-export const defaults={project:'Nouveau projet PLV',containsProducts:'Avec produits',category:'Pas définie',plvType:'Pas défini',material:'Pas défini',objective:'Lancement de produit',sector:'Cosmétique & beauté',channel:'Magasin spécialisé',position:'Premium',duration:'12 mois',price:25,vat:20,quantity:48,cycles:8,sellthrough:80,makerMargin:35,count:100,brief:''};
+export const defaults={project:'Nouveau projet PLV',containsProducts:'Avec produits',category:'Pas définie',plvType:'Pas défini',material:'Pas défini',objective:'Lancement de produit',sector:'Cosmétique & beauté',channel:'Magasin spécialisé',position:'Premium',duration:'12 mois',price:25,vat:20,quantity:48,cycles:8,sellthrough:80,makerMargin:25,count:100,brief:''};
 export function validate(d){
  const errors=[];if(!['Avec produits','Sans produit'].includes(d.containsProducts))errors.push('Mode de PLV invalide.');
  const bounds={price:[0.01,100000],vat:[0,100],quantity:[1,100000],cycles:[1,10000],sellthrough:[0,100],makerMargin:[0,99],count:[1,1000000]};

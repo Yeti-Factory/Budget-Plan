@@ -11,5 +11,5 @@ export function initializeSettings(form,onChange){
  $('settings-group').addEventListener('change',()=>{render();$('settings-message').textContent='';});
  $('settings-add-form').addEventListener('submit',e=>{e.preventDefault();const name=$('settings-group').value;const next=$('settings-new').value.trim();if(!next||catalog[name].some(v=>v.toLocaleLowerCase('fr')===next.toLocaleLowerCase('fr'))){$('settings-message').textContent='Ce choix existe déjà ou est vide.';return;}if(catalog[name].length>=200){$('settings-message').textContent='La liste contient déjà 200 choix.';return;}catalog[name].push(next);$('settings-new').value='';save('Choix ajouté.');});
  refreshSelects();
- return {resetValues(defaults){for(const [name,value]of Object.entries(defaults)){const control=form.elements.namedItem(name);if(control&&(control.tagName==='INPUT'||control.tagName==='TEXTAREA')){control.value='';continue;}if(control)control.value=catalog[name]&&!catalog[name].includes(value)?catalog[name][0]:value;}}};
+ return {resetValues(defaults){for(const [name,value]of Object.entries(defaults)){const control=form.elements.namedItem(name);if(control&&(control.tagName==='INPUT'||control.tagName==='TEXTAREA')){control.value=name==='makerMargin'?value:'';continue;}if(control)control.value=catalog[name]&&!catalog[name].includes(value)?catalog[name][0]:value;}}};
 }
